@@ -1,7 +1,6 @@
 import React from "react";
-import Chats from "./Chats";
-import Message from "./Message";
-
+import Chats from "../Chats/Chats";
+import Message from "../Message/Message";
 import "./Home.scss";
 
 const Home = () => {
