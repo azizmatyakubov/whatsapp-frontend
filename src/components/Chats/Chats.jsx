@@ -1,68 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Chats.scss";
 import SingleChat from "./SingleChat";
+import { Dropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const Chats = () => {
+const Chats = (props) => {
+  const { chats } = props;
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div className="chats-wrapper">
       {/* chats-header  */}
       <div className="chats-header">
         <div className="chats-header-left">
-          <i class="bi bi-person-circle"></i>
+          <i className="bi bi-person-circle"></i>
         </div>
         <div className="chats-header-right">
-          <i class="bi bi-filter-circle"></i>
-          <i class="bi bi-chat-left-text-fill"></i>
-          <i class="bi bi-three-dots-vertical"></i>
+          <i className="bi bi-filter-circle"></i>
+          <i className="bi bi-chat-left-text-fill"></i>
+
+          {/* dropdown without arrow */}
+
+          <Dropdown>
+            <Dropdown.Toggle variant="transparent" id="dropdown-basic">
+              <i className="bi bi-three-dots-vertical"></i>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                href="#/action-3"
+                onClick={() => navigate("/settings")}
+              >
+                Settings
+              </Dropdown.Item>
+              <Dropdown.Item href="#/action-4" onClick={handleLogOut}>
+                Log out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
 
       {/* chats-search  */}
       <div className="chats-search">
         <div className="chats-search-wrapper">
-          <i class="bi bi-search"></i>
+          <i className="bi bi-search"></i>
           <input type="text" placeholder="Search or start new chat" />
         </div>
       </div>
 
       {/* chats-list  */}
       <div className="chats-list">
-        <SingleChat
-          name="Group"
-          user="User 1"
-          text="Hello, how are you?"
-          img={"/image/chat1.jpg"}
-        />
-        <SingleChat
-          name="Group 2"
-          user="User 2"
-          text="Welcome to group"
-          img={"/image/chat2.jpg"}
-        />
-        <SingleChat
-          name="Group 3"
-          user="User 3"
-          text="Let's meet today"
-          img={"/image/chat3.jpg"}
-        />
-        <SingleChat
-          name="Group 4"
-          user="User 4"
-          text="Thank you very much"
-          img={"/image/chat4.jpg"}
-        />
-        <SingleChat
-          name="Group 2"
-          user="User 2"
-          text="Welcome to group"
-          img={"/image/chat2.jpg"}
-        />
-        <SingleChat
-          name="Group 3"
-          user="User 3"
-          text="Let's meet today"
-          img={"/image/chat3.jpg"}
-        />
+        {props.chats &&
+          props.chats.map((chat) => (
+            <SingleChat
+              // name={chat.name}
+              key={chat._id}
+              chatId={chat._id}
+              user={chat.members[1].username}
+              text={chat.members[1].username}
+              img={chat.members[1].avatar}
+              getMessages={props.getMessages}
+            />
+          ))}
       </div>
     </div>
   );

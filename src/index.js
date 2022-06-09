@@ -5,13 +5,15 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import configureStore from "./app/store";
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={configureStore}>
       <App />
     </Provider>
   </React.StrictMode>
